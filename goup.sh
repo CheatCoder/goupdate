@@ -33,11 +33,11 @@ update_go(){
 
 localversion(){
     
-    if ! version=$(/usr/local/go/bin/go version| grep -o "go[\.1234567890]*" | tail -n1); then
+    if ! type "/usr/local/go/bin/go" 2> /dev/null;then
         fresh_install
-        exit
     fi
 
+    version=$(/usr/local/go/bin/go version| grep -o "go[\.1234567890]*" | tail -n1)
     echo "$version"
 }
 
