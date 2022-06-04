@@ -8,7 +8,8 @@ fi
 
 
 get_latest_version_url(){
-    url="https://go.dev"$(curl -s "https://go.dev/dl/" |  grep -o "/dl/[go1234567890\.]*\.linux-$(uname -m).tar.gz" | head -n1)
+    # Looking for a version for all linux variants
+    url="https://go.dev"$(curl -s "https://go.dev/dl/" |  grep -o "/dl/[go1234567890\.]*\.linux-$(dpkg --print-architecture).tar.gz" | head -n1)
     filename="${url##*/}"
 }
 
