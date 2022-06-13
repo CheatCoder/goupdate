@@ -6,10 +6,17 @@ if ! [ "$(id -u)" = 0 ]; then
    exit 1
 fi
 
+case "$(uname -m)" in
+   aarch64)   arch="arm64";;
+   x86_64)   arch="amd64";;
+   x86)   arch="386";;
+esac
+
+
 
 get_latest_version_url(){
     # Looking for a version for all linux variants
-    url="https://go.dev"$(curl -s "https://go.dev/dl/" |  grep -o "/dl/[go1234567890\.]*\.linux-$(dpkg --print-architecture).tar.gz" | head -n1)
+    url="https://go.dev"$(curl -s "https://go.dev/dl/" |  grep -o "/dl/[go1234567890\.]*\.linux-"$arch".tar.gz" | head -n1)
     filename="${url##*/}"
 }
 
@@ -20,7 +27,7 @@ fresh_install(){
     tar -C /usr/local -xzf "$filename"
     rm "$filename"
 
-    echo "add >export PATH=$PATH:/usr/local/go/bin< to your .profile or .bash"
+    echo 'add >export PATH=$PATH:/usr/local/go/bin< to your .profile or .bash'
 }
 
 update_go(){
